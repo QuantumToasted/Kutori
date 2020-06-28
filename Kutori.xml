@@ -1,0 +1,193 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Kutori</name>
+    </assembly>
+    <members>
+        <member name="T:Kutori.Common.ErrorModel">
+            <summary>
+            Returned by the API when a handled error occurs during processing.
+            </summary>
+        </member>
+        <member name="P:Kutori.Common.ErrorModel.StatusCode">
+            <summary>
+            The status code returned in the response.
+            </summary>
+            <example>404</example>
+        </member>
+        <member name="P:Kutori.Common.ErrorModel.Error">
+            <summary>
+            The error message detailing why there was an error in the first place.
+            </summary>
+            <example>No existing post exists with the ID 1.</example>
+        </member>
+        <member name="T:Kutori.Common.PostCreateModel">
+            <summary>
+            Used for creating a new post or reply.
+            </summary>
+        </member>
+        <member name="P:Kutori.Common.PostCreateModel.Text">
+            <summary>
+            The text of the post you are creating.
+            </summary>
+            <example>Kutori a BEST</example>
+        </member>
+        <member name="P:Kutori.Common.PostCreateModel.Image">
+            <summary>
+            An RFC 2397 data URI representing the image you are attaching to the post.
+            </summary>
+            <example>data:image/png;base64,RAW_BASE64_DATA_OF_KUTORI</example>
+        </member>
+        <member name="T:Kutori.Common.PostDisplayModel">
+            <summary>
+            Returned on a successful post creation.
+            </summary>
+        </member>
+        <member name="P:Kutori.Common.PostDisplayModel.Id">
+            <summary>
+            The ID of the new post.
+            </summary>
+            <example>1</example>
+        </member>
+        <member name="P:Kutori.Common.PostDisplayModel.Text">
+            <summary>
+            The text of the new post.
+            </summary>
+            <example>Kutori a BEST</example>
+        </member>
+        <member name="P:Kutori.Common.PostDisplayModel.Timestamp">
+            <summary>
+            The timestamp of the post, expressed as seconds since the Unix epoch.
+            </summary>
+            <example>1593284912</example>
+        </member>
+        <member name="P:Kutori.Common.PostDisplayModel.Image">
+            <summary>
+            An RFC 2397 data URI representing the image attached to the post.
+            </summary>
+            <example>data:image/png;base64,RAW_BASE64_DATA_OF_KUTORI</example>
+        </member>
+        <member name="T:Kutori.Common.PostListModel">
+            <summary>
+            Returned as part of GET /api/posts.
+            </summary>
+        </member>
+        <member name="P:Kutori.Common.PostListModel.Text">
+            <summary>
+            The text of the post.
+            </summary>
+            <example>Kutori a BEST</example>
+        </member>
+        <member name="P:Kutori.Common.PostListModel.Timestamp">
+            <summary>
+            The timestamp of the post, expressed as seconds since the Unix epoch. 
+            </summary>
+            <example>1593284912</example>
+        </member>
+        <member name="P:Kutori.Common.PostListModel.Image">
+            <summary>
+            An RFC 2397 data URI representing the image attached to the post.
+            </summary>
+            <example>data:image/png;base64,RAW_BASE64_DATA_OF_KUTORI</example>
+        </member>
+        <member name="P:Kutori.Common.PostListModel.Replies">
+            <summary>
+            The total number of replies to the post.
+            </summary>
+            <example>15</example>
+        </member>
+        <member name="T:Kutori.Common.ReplyDisplayModel">
+            <summary>
+            Returned on a successful reply creation.
+            </summary>
+        </member>
+        <member name="P:Kutori.Common.ReplyDisplayModel.PostId">
+            <summary>
+            The ID of the Post this reply is for.
+            </summary>
+            <example>1</example>
+        </member>
+        <member name="T:Kutori.Common.ReplyListModel">
+            <summary>
+            Returned as part of GET /api/posts/{id}.
+            </summary>
+        </member>
+        <member name="P:Kutori.Common.ReplyListModel.Text">
+            <summary>
+            The text of the reply.
+            </summary>
+            <example>Kutori a BEST</example>
+        </member>
+        <member name="P:Kutori.Common.ReplyListModel.Timestamp">
+            <summary>
+            The timestamp of the reply, expressed as seconds since the Unix epoch. 
+            </summary>
+            <example>1593284912</example>
+        </member>
+        <member name="P:Kutori.Common.ReplyListModel.PostId">
+            <summary>
+            The ID of the post this reply is for.
+            </summary>
+            <example>1</example>
+        </member>
+        <member name="P:Kutori.Common.ReplyListModel.Image">
+            <summary>
+            An RFC 2397 data URI representing the image attached to the post.
+            </summary>
+            <example>data:image/png;base64,RAW_BASE64_DATA_OF_KUTORI</example>
+        </member>
+        <member name="M:Kutori.Controllers.PostController.GetPostsAsync(System.Int32,System.Boolean)">
+            <summary>
+            Gets all existing posts.
+            </summary>
+            <param name="last" example="0">Return only posts newer than this ID.</param>
+            <param name="images" example="false">If set to true, image data is included in the post model. This is disabled by default as image data is a large amount of the response.</param>
+            <returns>A dictionary of posts with their IDs as the key.</returns>
+            <response code="200">Posts successfully retrieved.</response>
+        </member>
+        <member name="M:Kutori.Controllers.PostController.GetRepliesAsync(System.Int32,System.Int32,System.Boolean)">
+            <summary>
+            Gets all replies for an existing post.
+            </summary>
+            <param name="id" example="1">The ID of the post.</param>
+            <param name="last" example="0">Return only replies newer than this ID.</param>
+            <param name="images" example="false">If set to true, image data is included in the reply models. This is disabled by default as image data is a large amount of the response.</param>
+            <returns>An object detailing the post and its replies.</returns>
+            <response code="404">A post does not exist with that ID or was deleted.</response>
+            <response code="200">Replies successfully retrieved.</response>
+        </member>
+        <member name="M:Kutori.Controllers.PostController.CreatePostAsync(Kutori.Common.PostCreateModel)">
+            <summary>
+            Creates a new post.
+            </summary>
+            <param name="post">An object detailing the content for the new post.</param>
+            <returns>The newly created post with its unique ID.</returns>
+            <response code="400">The text you provided was too long, or the image provided was invalid.</response>
+            <response code="200">Post was successfully created.</response>
+        </member>
+        <member name="M:Kutori.Controllers.PostController.CreateReplyAsync(System.Int32,Kutori.Common.PostCreateModel)">
+            <summary>
+            Creates a reply for an existing post.
+            </summary>
+            <param name="reply">An object detailing the content of the new reply.</param>
+            <param name="id">The ID of the post you are replying to.</param>
+            <returns>The newly created reply with its unique ID.</returns>
+            <response code="404">A post does not exist with that ID or was deleted.</response>
+            <response code="400">The text you provided was too long, or the image provided was invalid.</response>
+            <response code="200">Reply was successfully created.</response>
+        </member>
+        <member name="M:Kutori.Controllers.PostController.DeletePostAsync(System.Int32)">
+            <summary>
+            Deletes one of your posts or replies.
+            </summary>
+            <remarks>
+            <para>Because this endpoint exists, consumers wishing to maintain proper state will need to be prepared for replies to suddenly disappear from <code>GET /api/posts/{id}</code>.</para>
+            <para>If a post is deleted, all replies are also deleted. Keep this in mind for proper state as well.</para>
+            </remarks>
+            <param name="id">The ID of the post or reply you wish to delete.</param>
+            <response code="404">A post or reply does not exist with that ID or was deleted.</response>
+            <response code="403">You do not have permission to delete another user's post or reply.</response>
+            <response code="204">Post or reply successfully deleted.</response>
+        </member>
+    </members>
+</doc>
